@@ -11,8 +11,7 @@ def check_for_redirect(response):
         raise requests.exceptions.HTTPError
 
 
-def get_book_cover(book_id):
-    url = f"https://tululu.org/b{book_id}/"
+def get_book_cover(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'lxml')
     title_tag = soup.find('body').find('h1')
@@ -22,8 +21,9 @@ def get_book_cover(book_id):
         'https://tululu.org',
         soup.find(class_='bookimage').find('img')['src']
     )
+    comments = [comment.text for comment in soup.select('.texts .black')]
 
-    return title.strip(), image_url
+    return title.strip(), image_url, comments
 
 
 def download_txt(url, filename, folder='books/'):
@@ -74,16 +74,18 @@ def download_image(url, filename, folder='images/'):
 def main():
     url = "https://tululu.org/txt.php"
     for book_id in range(1, 11):
+        page_url = f"https://tululu.org/b{book_id}/"
         payload = {'id': book_id}
         response = requests.get(url, params=payload)
         response.raise_for_status()
         try:
             check_for_redirect(response)
-            title, image_url = get_book_cover(book_id)
+            title, image_url, comments = get_book_cover(page_url)
             filename = f'{book_id}.{title}.txt'
             filename_img = f'{book_id}{get_extension(image_url)}'
             download_txt(response.url, filename)
             download_image(image_url, filename_img)
+
         except requests.exceptions.HTTPError:
             pass
 
