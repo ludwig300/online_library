@@ -33,6 +33,20 @@ def parse_book_page(soup):
     }
 
 
+def download_comments(filename, comments, folder='comments/'):
+    try:
+        os.makedirs(f"./{folder}")
+    except FileExistsError:
+        pass
+    path = os.path.join(folder, sanitize_filename(filename))
+    if comments:
+        with open(path, 'w') as file:
+            comments = map(lambda x: x + '\n', comments)
+            file.writelines(comments)
+    else:
+        pass
+
+
 def download_txt(url, filename, folder='books/'):
     try:
         os.makedirs(f"./{folder}")
@@ -113,12 +127,14 @@ def main():
             book_page = parse_book_page(page_soup)
             image_url = book_page['image_url']
             title = book_page['title']
+            comments = book_page['comments']
             filename = f'{book_id}.{title}.txt'
             filename_img = f'{book_id}{get_extension(image_url)}'
             print('Название:', book_page['title'])
             print('Автор:', book_page['author'])
             download_txt(response.url, filename)
             download_image(image_url, filename_img)
+            download_comments(filename, comments)
 
         except requests.exceptions.HTTPError:
             pass
