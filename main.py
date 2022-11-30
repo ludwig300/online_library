@@ -22,8 +22,9 @@ def get_book_cover(url):
         soup.find(class_='bookimage').find('img')['src']
     )
     comments = [comment.text for comment in soup.select('.texts .black')]
+    genres = [genre.text for genre in soup.select_one('.d_book:-soup-contains("Жанр книги:")').find_all('a')]
 
-    return title.strip(), image_url, comments
+    return title.strip(), image_url, comments, genres
 
 
 def download_txt(url, filename, folder='books/'):
@@ -80,7 +81,7 @@ def main():
         response.raise_for_status()
         try:
             check_for_redirect(response)
-            title, image_url, comments = get_book_cover(page_url)
+            title, image_url, comments, genres = get_book_cover(page_url)
             filename = f'{book_id}.{title}.txt'
             filename_img = f'{book_id}{get_extension(image_url)}'
             download_txt(response.url, filename)
