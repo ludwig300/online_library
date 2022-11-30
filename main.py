@@ -11,9 +11,7 @@ def check_for_redirect(response):
         raise requests.exceptions.HTTPError
 
 
-def get_book_cover(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'lxml')
+def parse_book_page(soup):
     title_tag = soup.find('body').find('h1')
     title_text = title_tag.text
     title, author = title_text.split('::')
@@ -23,8 +21,12 @@ def get_book_cover(url):
     )
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres = [genre.text for genre in soup.select_one('.d_book:-soup-contains("Жанр книги:")').find_all('a')]
-
-    return title.strip(), image_url, comments, genres
+    return {
+        'title': title.strip(),
+        'image_url': image_url,
+        'comments': comments,
+        'genres': genres
+    }
 
 
 def download_txt(url, filename, folder='books/'):
@@ -76,12 +78,16 @@ def main():
     url = "https://tululu.org/txt.php"
     for book_id in range(1, 11):
         page_url = f"https://tululu.org/b{book_id}/"
+        page_response = requests.get(page_url)
+        page_soup = BeautifulSoup(page_response.text, 'lxml')
         payload = {'id': book_id}
         response = requests.get(url, params=payload)
         response.raise_for_status()
         try:
             check_for_redirect(response)
-            title, image_url, comments, genres = get_book_cover(page_url)
+            book_page = parse_book_page(page_soup)
+            image_url = book_page['image_url']
+            title = book_page['title']
             filename = f'{book_id}.{title}.txt'
             filename_img = f'{book_id}{get_extension(image_url)}'
             download_txt(response.url, filename)
