@@ -57,7 +57,6 @@ def download_txt(url, filename, folder='books/'):
     path = os.path.join(folder, sanitize_filename(filename))
     with open(path, 'wb') as file:
         file.write(response.content)
-
     return path
 
 
@@ -93,7 +92,9 @@ def download_image(url, filename, folder='images/'):
 
 
 def create_parser():
-    parser = argparse.ArgumentParser(description='Get "group_id"')
+    parser = argparse.ArgumentParser(
+        description='Download books, covers, comments'
+    )
     parser.add_argument(
         '--start_id',
         default=1,
@@ -135,7 +136,6 @@ def main():
             download_txt(response.url, filename)
             download_image(image_url, filename_img)
             download_comments(filename, comments)
-
         except requests.exceptions.HTTPError:
             pass
 
