@@ -1,5 +1,7 @@
 import argparse
+import logging
 import os
+import sys
 
 from bs4 import BeautifulSoup
 import requests
@@ -111,6 +113,7 @@ def create_parser():
 
 
 def main():
+
     parser = create_parser()
     args = parser.parse_args()
     url = "https://tululu.org/txt.php"
@@ -137,7 +140,12 @@ def main():
             download_image(image_url, filename_img)
             download_comments(filename, comments)
         except requests.exceptions.HTTPError:
-            pass
+            sys.stderr.write(f'book_id={book_id} is wrong \n')
+            logging.basicConfig(
+                filename='app.log',
+            )
+            logging.exception(f'book_id={book_id} is wrong \n')
+    sys.exit()
 
 
 if __name__ == '__main__':
