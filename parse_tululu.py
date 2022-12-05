@@ -50,10 +50,12 @@ def download_comments(filename, comments, folder='comments/'):
         pass
 
 
-def download_txt(url, filename, folder='books/'):
+def download_txt(url, filename, book_id, folder='books/'):
     os.makedirs(f"./{folder}", exist_ok=True)
-    response = requests.get(url)
+    payload = {'id': book_id}
+    response = requests.get(url, params=payload)
     response.raise_for_status()
+    check_for_redirect(response)
     path = os.path.join(folder, sanitize_filename(filename))
     with open(path, 'wb') as file:
         file.write(response.content)
@@ -115,15 +117,12 @@ def main():
     args = parser.parse_args()
     url = "https://tululu.org/txt.php"
     for book_id in range(args.start_id, args.end_id):
-        payload = {'id': book_id}
         page_url = f"https://tululu.org/b{book_id}/"
         page_response = requests.get(page_url)
-        response = requests.get(url, params=payload)
+        
         try:
-            response.raise_for_status()
             page_response.raise_for_status()
             check_for_redirect(page_response)
-            check_for_redirect(response)
             book_page = parse_book_page(page_response)
             image_url = book_page['image_url']
             title = book_page['title']
@@ -132,7 +131,7 @@ def main():
             filename_img = f'{book_id}{get_extension(image_url)}'
             print('Название:', book_page['title'])
             print('Автор:', book_page['author'])
-            download_txt(response.url, filename)
+            download_txt(url, filename, book_id)
             download_image(image_url, filename_img)
             download_comments(filename, comments)
         except requests.exceptions.HTTPError:
