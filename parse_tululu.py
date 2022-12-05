@@ -25,9 +25,11 @@ def parse_book_page(page_response):
         soup.find(class_='bookimage').find('img')['src']
     )
     comments = [comment.text for comment in soup.select('.texts .black')]
-    genres = [genre.text for genre in soup.select_one(
+    genres_set = soup.select_one(
         '.d_book:-soup-contains("Жанр книги:")'
-    ).find_all('a')]
+    ).find_all('a')
+    for genre in genres_set:
+        genres = genre.text
     return {
         'title': title.strip(),
         'author': author.strip(),
