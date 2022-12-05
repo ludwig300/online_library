@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import sys
+import time
 
 from bs4 import BeautifulSoup
 import requests
@@ -12,6 +13,12 @@ import urllib.parse
 def check_for_redirect(response):
     if response.history:
         raise requests.exceptions.HTTPError
+
+
+def check_for_connection(response):
+    if response.raise_for_status():
+
+        raise requests.exceptions.ConnectionError
 
 
 def parse_book_page(soup):
@@ -113,20 +120,22 @@ def create_parser():
 
 
 def main():
-
+    logging.basicConfig(
+        filename='app.log',
+    )
     parser = create_parser()
     args = parser.parse_args()
     url = "https://tululu.org/txt.php"
     for book_id in range(args.start_id, args.end_id):
+        payload = {'id': book_id}
         page_url = f"https://tululu.org/b{book_id}/"
         page_response = requests.get(page_url)
-        page_response.raise_for_status()
-        payload = {'id': book_id}
         response = requests.get(url, params=payload)
-        response.raise_for_status()
         try:
-            check_for_redirect(response)
+            response.raise_for_status()
+            page_response.raise_for_status()
             check_for_redirect(page_response)
+            check_for_redirect(response)
             page_soup = BeautifulSoup(page_response.text, 'lxml')
             book_page = parse_book_page(page_soup)
             image_url = book_page['image_url']
@@ -140,11 +149,14 @@ def main():
             download_image(image_url, filename_img)
             download_comments(filename, comments)
         except requests.exceptions.HTTPError:
-            sys.stderr.write(f'book_id={book_id} is wrong \n')
-            logging.basicConfig(
-                filename='app.log',
-            )
-            logging.exception(f'book_id={book_id} is wrong \n')
+            sys.stderr.write('HTTP Error \n')
+            logging.exception('HTTP Error \n')
+
+        except requests.exceptions.ConnectionError:
+            sys.stderr.write('Connection Error \n')
+            logging.exception('Connection Error \n')
+            time.sleep(10)
+
     sys.exit()
 
 
