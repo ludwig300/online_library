@@ -15,18 +15,13 @@ def check_for_redirect(response):
         raise requests.exceptions.HTTPError
 
 
-def check_for_connection(response):
-    if response.raise_for_status():
-
-        raise requests.exceptions.ConnectionError
-
-
-def parse_book_page(soup):
+def parse_book_page(page_response):
+    soup = BeautifulSoup(page_response.text, 'lxml')
     title_tag = soup.find('body').find('h1')
     title_text = title_tag.text
     title, author = title_text.split('::')
     image_url = urllib.parse.urljoin(
-        'https://tululu.org',
+        page_response.url,
         soup.find(class_='bookimage').find('img')['src']
     )
     comments = [comment.text for comment in soup.select('.texts .black')]
@@ -136,8 +131,7 @@ def main():
             page_response.raise_for_status()
             check_for_redirect(page_response)
             check_for_redirect(response)
-            page_soup = BeautifulSoup(page_response.text, 'lxml')
-            book_page = parse_book_page(page_soup)
+            book_page = parse_book_page(page_response)
             image_url = book_page['image_url']
             title = book_page['title']
             comments = book_page['comments']
