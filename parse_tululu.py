@@ -42,12 +42,10 @@ def parse_book_page(page_response):
 def download_comments(filename, comments, folder='comments/'):
     os.makedirs(f"./{folder}", exist_ok=True)
     path = os.path.join(folder, sanitize_filename(filename))
-    if comments:
-        with open(path, 'w') as file:
-            comments = map(lambda x: x + '\n', comments)
-            file.writelines(comments)
-    else:
-        pass
+    with open(path, 'w') as file:
+        comments = map(lambda x: x + '\n', comments)
+        file.writelines(comments)
+
 
 
 def download_txt(url, filename, book_id, folder='books/'):
@@ -119,7 +117,6 @@ def main():
     for book_id in range(args.start_id, args.end_id):
         page_url = f"https://tululu.org/b{book_id}/"
         page_response = requests.get(page_url)
-        
         try:
             page_response.raise_for_status()
             check_for_redirect(page_response)
@@ -133,7 +130,10 @@ def main():
             print('Автор:', book_page['author'])
             download_txt(url, filename, book_id)
             download_image(image_url, filename_img)
-            download_comments(filename, comments)
+            if comments:
+                download_comments(filename, comments)
+            else:
+                pass
         except requests.exceptions.HTTPError:
             sys.stderr.write('HTTP Error \n')
             logging.exception('HTTP Error \n')
