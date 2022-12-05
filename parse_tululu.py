@@ -40,10 +40,7 @@ def parse_book_page(page_response):
 
 
 def download_comments(filename, comments, folder='comments/'):
-    try:
-        os.makedirs(f"./{folder}")
-    except FileExistsError:
-        pass
+    os.makedirs(f"./{folder}", exist_ok=True)
     path = os.path.join(folder, sanitize_filename(filename))
     if comments:
         with open(path, 'w') as file:
@@ -54,10 +51,7 @@ def download_comments(filename, comments, folder='comments/'):
 
 
 def download_txt(url, filename, folder='books/'):
-    try:
-        os.makedirs(f"./{folder}")
-    except FileExistsError:
-        pass
+    os.makedirs(f"./{folder}", exist_ok=True)
     response = requests.get(url)
     response.raise_for_status()
     path = os.path.join(folder, sanitize_filename(filename))
@@ -83,10 +77,7 @@ def get_extension(urlstring):
 
 
 def download_image(url, filename, folder='images/'):
-    try:
-        os.makedirs(f"./{folder}")
-    except FileExistsError:
-        pass
+    os.makedirs(f"./{folder}", exist_ok=True)
     response = requests.get(url)
     response.raise_for_status()
     path = os.path.join(
