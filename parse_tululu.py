@@ -28,8 +28,9 @@ def parse_book_page(page_response):
     genres_set = soup.select_one(
         '.d_book:-soup-contains("Жанр книги:")'
     ).find_all('a')
+    genres = list()
     for genre in genres_set:
-        genres = genre.text
+        genres.append(genre.text)
     return {
         'title': title.strip(),
         'author': author.strip(),
