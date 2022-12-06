@@ -133,8 +133,6 @@ def main():
             download_image(image_url, filename_img)
             if comments:
                 download_comments(filename, comments)
-            else:
-                pass
         except requests.exceptions.HTTPError:
             sys.stderr.write('HTTP Error \n')
             logging.exception('HTTP Error \n')
