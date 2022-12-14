@@ -28,9 +28,7 @@ def parse_book_page(page_response):
     genres_set = soup.select_one(
         '.d_book:-soup-contains("Жанр книги:")'
     ).find_all('a')
-    genres = list()
-    for genre in genres_set:
-        genres.append(genre.text)
+    genres = [genre.text for genre in genres_set]
     return {
         'title': title.strip(),
         'author': author.strip(),
@@ -46,7 +44,6 @@ def download_comments(filename, comments, folder='comments/'):
     with open(path, 'w') as file:
         comments = map(lambda x: x + '\n', comments)
         file.writelines(comments)
-
 
 
 def download_txt(url, filename, book_id, folder='books/'):
