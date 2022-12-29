@@ -19,11 +19,12 @@ import urllib.parse
 
 def parse_page(response, urls):
     soup = BeautifulSoup(response.text, 'lxml')
-    meta_books = soup.find_all(class_='d_book')
+    url_select = 'body .d_book .bookimage a'
+    meta_books = soup.select(url_select)
     for meta_book in meta_books:
         url_book = urllib.parse.urljoin(
             response.url,
-            meta_book.find('a')['href']
+            meta_book['href']
         )
         urls.append(url_book)
     return urls

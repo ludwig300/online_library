@@ -17,17 +17,17 @@ def check_for_redirect(response):
 
 def parse_book_page(page_response):
     soup = BeautifulSoup(page_response.text, 'lxml')
-    title_tag = soup.find('body').find('h1')
+    title_tag = soup.select_one('body h1')
     title_text = title_tag.text
     title, author = title_text.split('::')
     image_url = urllib.parse.urljoin(
         page_response.url,
-        soup.find(class_='bookimage').find('img')['src']
+        soup.select('.bookimage img src')
     )
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres_set = soup.select_one(
         '.d_book:-soup-contains("Жанр книги:")'
-    ).find_all('a')
+    ).select('a')
     genres = [genre.text for genre in genres_set]
     return {
         'title': title.strip(),
@@ -80,7 +80,7 @@ def download_image(url, filename, folder='images/'):
     response.raise_for_status()
     path = os.path.join(
         folder,
-        filename
+        sanitize_filename(filename)
     )
     with open(path, 'wb') as file:
         file.write(response.content)
