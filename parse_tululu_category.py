@@ -1,3 +1,4 @@
+import argparse
 import logging
 import sys
 import json
@@ -37,14 +38,35 @@ def get_book_id(url):
     return book_id[0]
 
 
+def create_parser():
+    parser = argparse.ArgumentParser(
+        description='Download books, covers, comments'
+    )
+    parser.add_argument(
+        '--start_page',
+        default=1,
+        help='Number page for start download. Default 1',
+        type=int
+    )
+    parser.add_argument(
+        '--end_page',
+        default=702,
+        help='Number page for end download. Default 702',
+        type=int
+    )
+    return parser
+
+
 def main():
     logging.basicConfig(
         filename='app.log',
     )
+    parser = create_parser()
+    args = parser.parse_args()
     urls = list()
     book_description = list()
     book_url = "https://tululu.org/txt.php"
-    for page in range(1, 4):
+    for page in range(args.start_page, args.end_page):
         url = f"https://tululu.org/l55/{page}"
         response = requests.get(url)
         response.raise_for_status()
@@ -61,8 +83,7 @@ def main():
             comments = book_page['comments']
             filename = f'{title}.txt'
             filename_img = f'{title}{get_extension(image_url)}'
-            print('Название:', book_page['title'])
-            print('Автор:', book_page['author'])
+            print(image_url)
             book_id = get_book_id(url)
             book_path = download_txt(book_url, filename, book_id)
             download_image(image_url, filename_img)
