@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 import sys
 import json
 import time
@@ -54,6 +55,28 @@ def create_parser():
         help='Number page for end download. Default 702',
         type=int
     )
+    parser.add_argument(
+        '--dest_folder',
+        default='./',
+        help='Folder of parsed data',
+        type=str
+    )
+    parser.add_argument(
+        '--skip_imgs',
+        action="store_true",
+        help='Skip download images',
+    )
+    parser.add_argument(
+        '--skip_txt',
+        action="store_true",
+        help='Skip download images',
+    )
+    parser.add_argument(
+        '--json_path',
+        default='book_description.json',
+        help='Path to *.json, default = book_description.json',
+        type=str
+    )
     return parser
 
 
@@ -63,6 +86,8 @@ def main():
     )
     parser = create_parser()
     args = parser.parse_args()
+    dest_folder = args.dest_folder
+    json_path = args.json_path
     urls = list()
     book_description = list()
     book_url = "https://tululu.org/txt.php"
@@ -83,14 +108,29 @@ def main():
             comments = book_page['comments']
             filename = f'{title}.txt'
             filename_img = f'{title}{get_extension(image_url)}'
-            print(image_url)
+            print(url)
             book_id = get_book_id(url)
-            book_path = download_txt(book_url, filename, book_id)
-            download_image(image_url, filename_img)
-            book_page['book_path'] = book_path
+            if not args.skip_txt:
+                book_path = download_txt(
+                    book_url,
+                    filename,
+                    book_id,
+                    os.path.join(dest_folder, 'books/')
+                )
+                book_page['book_path'] = book_path
+            if not args.skip_imgs:
+                download_image(
+                    image_url,
+                    filename_img,
+                    os.path.join(dest_folder, 'images/')
+                )
             book_description.append(book_page)
             if comments:
-                download_comments(filename, comments)
+                download_comments(
+                    filename,
+                    comments,
+                    os.path.join(dest_folder, 'comments/')
+                )
         except requests.exceptions.HTTPError:
             sys.stderr.write('HTTP Error \n')
             logging.exception('HTTP Error \n')
@@ -100,7 +140,11 @@ def main():
             logging.exception('Connection Error \n')
             time.sleep(10)
 
-    with open("book_description.json", "w", encoding='utf8') as my_file:
+    os.makedirs(dest_folder, exist_ok=True)
+    with open(os.path.join(
+        dest_folder,
+        json_path
+    ), "w", encoding='utf8') as my_file:
         json.dump(book_description, my_file, ensure_ascii=False)
 
     sys.exit()

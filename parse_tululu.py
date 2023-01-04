@@ -38,16 +38,16 @@ def parse_book_page(page_response):
     }
 
 
-def download_comments(filename, comments, folder='comments/'):
-    os.makedirs(f"./{folder}", exist_ok=True)
+def download_comments(filename, comments, folder='./comments/'):
+    os.makedirs(folder, exist_ok=True)
     path = os.path.join(folder, sanitize_filename(filename))
     with open(path, 'w') as file:
         comments = map(lambda x: x + '\n', comments)
         file.writelines(comments)
 
 
-def download_txt(url, filename, book_id, folder='books/'):
-    os.makedirs(f"./{folder}", exist_ok=True)
+def download_txt(url, filename, book_id, folder='./books/'):
+    os.makedirs(folder, exist_ok=True)
     payload = {'id': book_id}
     response = requests.get(url, params=payload)
     response.raise_for_status()
@@ -74,8 +74,8 @@ def get_extension(urlstring):
     return extension
 
 
-def download_image(url, filename, folder='images/'):
-    os.makedirs(f"./{folder}", exist_ok=True)
+def download_image(url, filename, folder='./images/'):
+    os.makedirs(folder, exist_ok=True)
     response = requests.get(url)
     response.raise_for_status()
     path = os.path.join(
