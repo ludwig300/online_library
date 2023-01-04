@@ -22,7 +22,7 @@ def parse_book_page(page_response):
     title, author = title_text.split('::')
     image_url = urllib.parse.urljoin(
         page_response.url,
-        soup.select('.bookimage img src')
+        soup.select_one('.bookimage img')['src']
     )
     comments = [comment.text for comment in soup.select('.texts .black')]
     genres_set = soup.select_one(
