@@ -46,35 +46,35 @@ def create_parser():
     parser.add_argument(
         '--start_page',
         default=1,
-        help='Number page for start download. Default 1',
+        help='number page for start download. Default 1',
         type=int
     )
     parser.add_argument(
         '--end_page',
         default=702,
-        help='Number page for end download. Default 702',
+        help='number page for end download. Default 702',
         type=int
     )
     parser.add_argument(
         '--dest_folder',
         default='./',
-        help='Folder of parsed data',
+        help='folder of parsed data',
         type=str
     )
     parser.add_argument(
         '--skip_imgs',
         action="store_true",
-        help='Skip download images',
+        help='skip download images',
     )
     parser.add_argument(
         '--skip_txt',
         action="store_true",
-        help='Skip download images',
+        help='skip download books',
     )
     parser.add_argument(
         '--json_path',
         default='book_description.json',
-        help='Path to *.json, default = book_description.json',
+        help='path to *.json, default = book_description.json',
         type=str
     )
     return parser

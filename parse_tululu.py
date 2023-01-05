@@ -93,13 +93,13 @@ def create_parser():
     parser.add_argument(
         '--start_id',
         default=1,
-        help='Book id. Default 1',
+        help='book id. Default 1',
         type=int
     )
     parser.add_argument(
         '--end_id',
         default=10,
-        help='Book id. Default 10',
+        help='book id. Default 10',
         type=int
     )
     return parser
