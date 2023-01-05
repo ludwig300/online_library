@@ -41,12 +41,19 @@ $ python parse_tululu_category.py
 ```
 
 options:
+
   `-h, --help` show this help message and exit
+  
   `--start_page START_PAGE` number page for start download. Default 1
+  
   `--end_page END_PAGE`   number page for end download. Default 702
+  
   `--dest_folder DEST_FOLDER`  folder of parsed data
+  
   `--skip_imgs` skip download images
+  
   `--skip_txt` skip download books
+  
   `--json_path JSON_PATH`  path to *.json, default = book_description.json
 
 *Project Goals*
