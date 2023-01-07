@@ -91,12 +91,20 @@ def main():
     urls = list()
     books_descriptions = list()
     book_url = "https://tululu.org/txt.php"
-    for page in range(args.start_page, args.end_page):
-        url = f"https://tululu.org/l55/{page}"
-        response = requests.get(url)
-        response.raise_for_status()
-        check_for_redirect(response)
-        urls = parse_page(response, urls)
+    try:
+        for page in range(args.start_page, args.end_page):
+            url = f"https://tululu.org/l55/{page}"
+            response = requests.get(url)
+            response.raise_for_status()
+            check_for_redirect(response)
+            urls = parse_page(response, urls)
+    except requests.exceptions.HTTPError:
+        sys.stderr.write('HTTP Error \n')
+        logging.exception('HTTP Error \n')
+    except requests.exceptions.ConnectionError:
+        sys.stderr.write('Connection Error \n')
+        logging.exception('Connection Error \n')
+        time.sleep(10)
 
     for url in urls:
         page_response = requests.get(url)
