@@ -89,7 +89,7 @@ def main():
     dest_folder = args.dest_folder
     json_path = args.json_path
     urls = list()
-    book_description = list()
+    books_descriptions = list()
     book_url = "https://tululu.org/txt.php"
     for page in range(args.start_page, args.end_page):
         url = f"https://tululu.org/l55/{page}"
@@ -124,7 +124,7 @@ def main():
                     filename_img,
                     os.path.join(dest_folder, 'images/')
                 )
-            book_description.append(book_page)
+            books_descriptions.append(book_page)
             if comments:
                 download_comments(
                     filename,
@@ -145,7 +145,7 @@ def main():
         dest_folder,
         json_path
     ), "w", encoding='utf8') as my_file:
-        json.dump(book_description, my_file, ensure_ascii=False)
+        json.dump(books_descriptions, my_file, ensure_ascii=False)
 
     sys.exit()
 
