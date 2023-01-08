@@ -150,11 +150,9 @@ def main():
             time.sleep(10)
 
     os.makedirs(dest_folder, exist_ok=True)
-    with open(os.path.join(
-        dest_folder,
-        json_path
-    ), "w", encoding='utf8') as my_file:
-        json.dump(books_descriptions, my_file, ensure_ascii=False)
+    path = os.path.join(dest_folder, json_path)
+    with open(path, "w", encoding='utf8') as file:
+        json.dump(books_descriptions, file, ensure_ascii=False)
 
     sys.exit()
 
