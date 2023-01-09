@@ -19,17 +19,18 @@ import requests
 import urllib.parse
 
 
-def parse_page(response, urls):
+def parse_category_page(response):
+    books_urls = list()
     soup = BeautifulSoup(response.text, 'lxml')
-    url_select = 'body .d_book .bookimage a'
-    meta_books = soup.select(url_select)
-    for meta_book in meta_books:
-        url_book = urllib.parse.urljoin(
+    url_selector = 'body .d_book .bookimage a'
+    books_tags = soup.select(url_selector)
+    for books_tag in books_tags:
+        book_url = urllib.parse.urljoin(
             response.url,
-            meta_book['href']
+            books_tag['href']
         )
-        urls.append(url_book)
-    return urls
+        books_urls.append(book_url)
+    return books_urls
 
 
 def get_book_id(url):
@@ -88,8 +89,8 @@ def main():
     args = parser.parse_args()
     dest_folder = args.dest_folder
     json_path = args.json_path
-    urls = list()
     books_descriptions = list()
+    urls = list()
     book_url = "https://tululu.org/txt.php"
     try:
         for page in range(args.start_page, args.end_page):
@@ -97,10 +98,14 @@ def main():
             response = requests.get(url)
             response.raise_for_status()
             check_for_redirect(response)
-            urls = parse_page(response, urls)
+            books_urls = parse_category_page(response)
+            for books_url in books_urls:
+                urls.append(books_url)
+
     except requests.exceptions.HTTPError:
         sys.stderr.write('HTTP Error \n')
         logging.exception('HTTP Error \n')
+
     except requests.exceptions.ConnectionError:
         sys.stderr.write('Connection Error \n')
         logging.exception('Connection Error \n')
@@ -117,7 +122,6 @@ def main():
             comments = book_page['comments']
             filename = f'{title}.txt'
             filename_img = f'{title}{get_extension(image_url)}'
-            print(url)
             book_id = get_book_id(url)
             if not args.skip_txt:
                 book_path = download_txt(
@@ -140,6 +144,9 @@ def main():
                     comments,
                     os.path.join(dest_folder, 'comments/')
                 )
+
+            sys.stderr.write(f'{url} \n')
+
         except requests.exceptions.HTTPError:
             sys.stderr.write('HTTP Error \n')
             logging.exception('HTTP Error \n')
