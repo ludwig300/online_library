@@ -99,8 +99,7 @@ def main():
             response.raise_for_status()
             check_for_redirect(response)
             books_urls = parse_category_page(response)
-            for books_url in books_urls:
-                urls.append(books_url)
+            urls.extend(books_urls)
 
     except requests.exceptions.HTTPError:
         sys.stderr.write('HTTP Error \n')
