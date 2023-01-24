@@ -13,9 +13,7 @@ def on_reload():
     with open("book_description.json", "r", encoding="utf8") as book_file:
         books_descriptions_json = book_file.read()
     books_descriptions = json.loads(books_descriptions_json)
-
     chunked_books_descriptions = list(chunked(books_descriptions, 2))
-
     rendered_page = template.render(books=chunked_books_descriptions)
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)

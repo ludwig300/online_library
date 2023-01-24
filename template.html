@@ -18,12 +18,13 @@
         <div class="card mb-3" style="width: 18rem;">
           <div class="row no-gutters">
             <div class="col-md-4">
-              <img src={{ book_left.image_url }} class="card-img" alt='{{ book_left.title }}'>
+              <img src="{{ book_left.image_url }}" class="card-img" alt='{{ book_left.title }}'>
             </div>
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">{{ book_left.title }}</h5>
                 <p class="card-text">{{ book_left.author }}</p>
+                <a href="{{ book_left.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
               </div>
             </div>
@@ -33,12 +34,13 @@
         <div class="card mb-3" style="width: 18rem;">
           <div class="row no-gutters">
             <div class="col-md-4">
-              <img src={{ book_right.image_url }} class="card-img" alt='{{ book_right.title }}'>
+              <img src="{{ book_right.image_url }}" class="card-img" alt='{{ book_right.title }}'>
             </div>
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">{{ book_right.title }}</h5>
                 <p class="card-text">{{ book_right.author }}</p>
+                <a href="{{ book_right.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
               </div>
             </div>
