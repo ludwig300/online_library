@@ -6,7 +6,6 @@ from more_itertools import chunked
 
 
 def on_reload():
-    os.makedirs('pages', exist_ok=True)
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
@@ -16,16 +15,21 @@ def on_reload():
         books_descriptions_json = book_file.read()
     books_descriptions = json.loads(books_descriptions_json)
     chunked_pages = list(chunked(books_descriptions, 20))
-
+    count_pages = len(chunked_pages)
     for id, chunked_books in enumerate(chunked_pages, 1):
         chunked_books_descriptions = list(chunked(chunked_books, 2))
-        rendered_page = template.render(books=chunked_books_descriptions)
+        rendered_page = template.render(
+            books=chunked_books_descriptions,
+            current_page=id,
+            count_pages=count_pages
+        )
         path = os.path.join('pages', f'index{id}.html')
         with open(path, 'w', encoding="utf8") as file:
             file.write(rendered_page)
 
 
 def main():
+    os.makedirs('pages', exist_ok=True)
     on_reload()
     server = Server()
     server.watch('template.html', on_reload)
