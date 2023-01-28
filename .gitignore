@@ -25,11 +25,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-books/
-.books
-images/
 comments/
-book_description.json
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

@@ -127,7 +127,7 @@ def main():
                     book_url,
                     filename,
                     book_id,
-                    os.path.join(dest_folder, 'books/')
+                    os.path.join(dest_folder, 'media/books/')
                 )
                 book_page['book_path'] = book_path
             if not args.skip_imgs:
@@ -141,7 +141,7 @@ def main():
                 download_comments(
                     filename,
                     comments,
-                    os.path.join(dest_folder, 'comments/')
+                    os.path.join(dest_folder, 'media/comments/')
                 )
 
             sys.stderr.write(f'{url} \n')
