@@ -84,6 +84,7 @@ def download_image(url, filename, folder='./images/'):
     )
     with open(path, 'wb') as file:
         file.write(response.content)
+    return path
 
 
 def create_parser():

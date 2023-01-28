@@ -131,10 +131,10 @@ def main():
                 )
                 book_page['book_path'] = book_path
             if not args.skip_imgs:
-                download_image(
+                book_page['image_path'] = download_image(
                     image_url,
                     filename_img,
-                    os.path.join(dest_folder, 'images/')
+                    os.path.join(dest_folder, 'media/images/')
                 )
             books_descriptions.append(book_page)
             if comments:

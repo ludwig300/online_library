@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    
 
     <title>Библиотека</title>
+    <link rel="icon" href="../static/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../static/vendors/bootstrap/bootstrap.min.css" 
   </head>
   <body>
     <div class="mt-5 {
@@ -50,7 +53,7 @@
           <div class="card mx-auto" style="width: 20rem;">
             <div class="row no-gutters">
               <div class="col-md-4">
-                <img src="{{ book_left.image_url }}" class="card-img" alt='{{ book_left.title }}'>
+                <img src=".{{ book_left.image_path }}" class="card-img" alt='{{ book_left.title }}'>
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -59,7 +62,7 @@
                   {% for genre in book_left.genres %}
                     <h6><span class="badge badge-secondary">{{ genre }}</span></h6>
                   {% endfor %}
-                  <a href="{{ book_left.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
+                  <a href=".{{ book_left.book_path }}" target="_blank" rel="noopener noreferrer">Читать</a>
                   <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
               </div>
@@ -69,7 +72,7 @@
           <div class="card mx-auto" style="width: 20rem;">
             <div class="row no-gutters">
               <div class="col-md-4">
-                <img src="{{ book_right.image_url }}" class="card-img" alt='{{ book_right.title }}'>
+                <img src=".{{ book_right.image_path }}" class="card-img" alt='{{ book_right.title }}'>
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -78,7 +81,7 @@
                   {% for genre in book_right.genres %}
                     <h6><span class="badge badge-secondary">{{ genre }}</span></h6>
                   {% endfor %}
-                  <a href="{{ book_right.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
+                  <a href=".{{ book_right.book_path }}" target="_blank" rel="noopener noreferrer">Читать</a>
                   <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                 </div>
               </div>
@@ -92,8 +95,8 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="../static/vendors/jquery/jquery-3.3.1.slim.min.js"></script>
+    <script src="../static/js/popper.min.js"></script>
+    <script src="../static/vendors/bootstrap/bootstrap.min.js"></script>
   </body>
 </html>
