@@ -56,5 +56,19 @@ options:
   
   `--json_path JSON_PATH`  path to *.json, default = book_description.json
 
+## HTML page generator for a website with books
+
+### Open project directory from cmd
+
+```
+$ python render_website.py
+```
+HTML pages will be generated in the `pages` folder
+
+## You can see my [site](https://ludwig300.github.io/online_library)
+
+![Desktop Screenshot 2023 01 29 - 21 26 32 10 (2)](https://user-images.githubusercontent.com/105148929/215333100-b39f412c-8065-4496-8769-8469616fb042.png)
+
+
 *Project Goals*
 Code for writing research on an online course for web developers [dvmn.org](https://dvmn.org/)
