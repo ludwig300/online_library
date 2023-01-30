@@ -65,9 +65,10 @@ $ python render_website.py
 ```
 
 options:
-  `-h, --help`            show this help message and exit
-  `--json_path JSON_PATH`
-                        Path to .json database. Default='book_description.json'
+
+`-h, --help`   show this help message and exit
+
+`--json_path JSON_PATH`    Path to .json database. Default='book_description.json'
 
 HTML pages will be generated in the `pages` folder
 
