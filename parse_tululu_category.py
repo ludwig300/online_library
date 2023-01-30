@@ -1,22 +1,17 @@
 import argparse
+import json
 import logging
 import os
 import sys
-import json
 import time
-
-from parse_tululu import (
-    check_for_redirect,
-    download_comments,
-    download_image,
-    download_txt,
-    get_extension,
-    parse_book_page
-)
-
-from bs4 import BeautifulSoup
-import requests
 import urllib.parse
+
+import requests
+from bs4 import BeautifulSoup
+
+from parse_tululu import (check_for_redirect, download_comments,
+                          download_image, download_txt, get_extension,
+                          parse_book_page)
 
 
 def parse_category_page(response):

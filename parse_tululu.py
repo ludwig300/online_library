@@ -3,11 +3,11 @@ import logging
 import os
 import sys
 import time
-
-from bs4 import BeautifulSoup
-import requests
-from pathvalidate import sanitize_filename
 import urllib.parse
+
+import requests
+from bs4 import BeautifulSoup
+from pathvalidate import sanitize_filename
 
 
 def check_for_redirect(response):
