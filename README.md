@@ -43,17 +43,17 @@ $ python parse_tululu_category.py
 options:
 
   `-h, --help` show this help message and exit
-  
+
   `--start_page START_PAGE` number page for start download. Default 1
-  
+
   `--end_page END_PAGE`   number page for end download. Default 702
-  
+
   `--dest_folder DEST_FOLDER`  folder of parsed data
-  
+
   `--skip_imgs` skip download images
-  
+
   `--skip_txt` skip download books
-  
+
   `--json_path JSON_PATH`  path to *.json, default = book_description.json
 
 ## HTML page generator for a website with books
@@ -63,12 +63,17 @@ options:
 ```
 $ python render_website.py
 ```
+
+options:
+  `-h, --help`            show this help message and exit
+  `--json_path JSON_PATH`
+                        Path to .json database. Default='book_description.json'
+
 HTML pages will be generated in the `pages` folder
 
 ## You can see my [site](https://ludwig300.github.io/online_library)
 
 ![Desktop Screenshot 2023 01 29 - 21 26 32 10 (2)](https://user-images.githubusercontent.com/105148929/215333100-b39f412c-8065-4496-8769-8469616fb042.png)
-
 
 *Project Goals*
 Code for writing research on an online course for web developers [dvmn.org](https://dvmn.org/)
