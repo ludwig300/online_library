@@ -71,6 +71,8 @@ options:
 
 HTML pages will be generated in the `pages` folder
 
+To view follow the linkTo view follow the link [http://127.0.0.1:5500/pages/index1.html](http://127.0.0.1:5500/pages/index1.html)
+
 ## You can see my [site](https://ludwig300.github.io/online_library)
 
 ![Desktop Screenshot 2023 01 29 - 21 26 32 10 (2)](https://user-images.githubusercontent.com/105148929/215333100-b39f412c-8065-4496-8769-8469616fb042.png)
