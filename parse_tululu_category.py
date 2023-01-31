@@ -110,13 +110,13 @@ def main():
         try:
             page_response.raise_for_status()
             check_for_redirect(page_response)
+            book_id = get_book_id(url)
             book_page = parse_book_page(page_response)
             image_url = book_page['image_url']
             title = book_page['title']
             comments = book_page['comments']
-            filename = f'{title}.txt'
-            filename_img = f'{title}{get_extension(image_url)}'
-            book_id = get_book_id(url)
+            filename = f'{book_id}_{title}.txt'
+            filename_img = f'{book_id}_{title}{get_extension(image_url)}'
             if not args.skip_txt:
                 book_path = download_txt(
                     book_url,
