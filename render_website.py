@@ -16,9 +16,9 @@ def on_reload(json_path):
     with open(json_path, "r", encoding="utf8") as book_file:
         books_descriptions_json = book_file.read()
     books_descriptions = json.loads(books_descriptions_json)
-    number_books_per_page = 20
+    books_number_per_page = 20
     number_of_columns = 2
-    chunked_pages = list(chunked(books_descriptions, number_books_per_page))
+    chunked_pages = list(chunked(books_descriptions, books_number_per_page))
     count_pages = len(chunked_pages)
     for id, chunked_books in enumerate(chunked_pages, 1):
         chunked_books_descriptions = list(
