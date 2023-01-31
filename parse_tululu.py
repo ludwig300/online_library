@@ -55,7 +55,7 @@ def download_txt(url, filename, book_id, folder='./books/'):
     path = os.path.join(folder, sanitize_filename(filename))
     with open(path, 'wb') as file:
         file.write(response.content)
-    return path
+    return sanitize_filename(filename)
 
 
 def get_extension(urlstring):
@@ -84,7 +84,7 @@ def download_image(url, filename, folder='./images/'):
     )
     with open(path, 'wb') as file:
         file.write(response.content)
-    return path
+    return sanitize_filename(filename)
 
 
 def create_parser():

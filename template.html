@@ -53,7 +53,7 @@
           <div class="card mx-auto" style="width: 32rem;">
             <div class="row no-gutters">
               <div class="col-md-4">
-                <img src=".{{ book_left.image_path|urlencode }}" class="card-img" alt='{{ book_left.title }}'>
+                <img src="../media/images/{{ book_left.image_path|urlencode }}" class="card-img" alt='{{ book_left.title }}'>
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -62,7 +62,7 @@
                   {% for genre in book_left.genres %}
                     <h6><span class="badge badge-secondary">{{ genre }}</span></h6>
                   {% endfor %}
-                  <a href=".{{ book_left.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
+                  <a href="../media/books/{{ book_left.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
                 </div>
               </div>
             </div>
@@ -71,7 +71,7 @@
           <div class="card mx-auto" style="width: 32rem;">
             <div class="row no-gutters">
               <div class="col-md-4">
-                <img src=".{{ book_right.image_path|urlencode }}" class="card-img" alt='{{ book_right.title }}'>
+                <img src="../media/images/{{ book_right.image_path|urlencode }}" class="card-img" alt='{{ book_right.title }}'>
               </div>
               <div class="col-md-8">
                 <div class="card-body">
@@ -80,7 +80,7 @@
                   {% for genre in book_right.genres %}
                     <h6><span class="badge badge-secondary">{{ genre }}</span></h6>
                   {% endfor %}
-                  <a href=".{{ book_right.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
+                  <a href="../media/books/{{ book_right.book_path|urlencode }}" target="_blank" rel="noopener noreferrer">Читать</a>
                 </div>
               </div>
             </div>
