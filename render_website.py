@@ -7,13 +7,15 @@ from livereload import Server
 from more_itertools import chunked
 
 
-def on_reload(json_path):
+def on_reload():
+    parser = create_parser()
+    args = parser.parse_args()
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml'])
     )
     template = env.get_template('template.html')
-    with open(json_path, "r", encoding="utf8") as book_file:
+    with open(args.json_path, "r", encoding="utf8") as book_file:
         books_descriptions_json = book_file.read()
     books_descriptions = json.loads(books_descriptions_json)
     books_number_per_page = 20
@@ -47,10 +49,8 @@ def create_parser():
 
 
 def main():
-    parser = create_parser()
-    args = parser.parse_args()
     os.makedirs('pages', exist_ok=True)
-    on_reload(args.json_path)
+    on_reload()
     server = Server()
     server.watch('template.html', on_reload)
     server.serve(root='.')
